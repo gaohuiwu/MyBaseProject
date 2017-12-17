@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mbp.dao.ExampleDao">
+
+    <resultMap id="usersList" type="com.mbp.pojo.ExampleEntity">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+    <select id="getUserById" parameterType="Long">
+        SELECT
+        a.id,
+        a.age,
+        a.name
+        FROM
+        t_user a
+        WHERE
+        a.id=#{userId}
+    </select>
+
+    <select id="getUsers" resultMap="usersList">
+        SELECT
+        a.id,
+        a.age,
+        a.name
+        FROM
+        t_user a
+    </select>
+</mapper>
