@@ -1,5 +1,6 @@
 import com.mbp.pojo.ExampleEntity;
 import com.mbp.service.ExampleService;
+import com.mbp.utils.JDateTimeUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,5 +32,16 @@ public class TestExample {
 
         System.out.println("123:" + entity.getName());
 
+    }
+
+    @Test
+    public void testJoddJDateTime(){
+        JDateTimeUtil jDateTimeUtil=new JDateTimeUtil();
+        jDateTimeUtil.testConstructor();
+        jDateTimeUtil.testSet();
+        jDateTimeUtil.testGet();
+        jDateTimeUtil.testAdd();
+        jDateTimeUtil.testAdd2();
+        jDateTimeUtil.testFormat();
     }
 }
