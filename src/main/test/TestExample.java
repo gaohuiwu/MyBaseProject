@@ -1,9 +1,14 @@
+import com.google.zxing.WriterException;
 import com.mbp.pojo.ExampleEntity;
 import com.mbp.service.ExampleService;
 import com.mbp.utils.JDateTimeUtil;
+import com.mbp.utils.QrCodeUtil1;
+import com.mbp.utils.QrCodeUtil2;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,13 +40,34 @@ public class TestExample {
     }
 
     @Test
-    public void testJoddJDateTime(){
-        JDateTimeUtil jDateTimeUtil=new JDateTimeUtil();
+    public void testJoddJDateTime() {
+        JDateTimeUtil jDateTimeUtil = new JDateTimeUtil();
         jDateTimeUtil.testConstructor();
         jDateTimeUtil.testSet();
         jDateTimeUtil.testGet();
         jDateTimeUtil.testAdd();
         jDateTimeUtil.testAdd2();
         jDateTimeUtil.testFormat();
+    }
+
+    @Test
+    public void testQrCode() throws IOException, WriterException {
+        /*
+        生成二维码
+         */
+        QrCodeUtil1.makeEncode();
+        /*
+        解析二维码
+         */
+        //QrCodeUtil1.makeDecode();
+    }
+
+    @Test
+    public void testLogoQrCode() {
+        File logoFile = new File("G://logo.jpg");
+        File qrCodeFile = new File("G://5.png");
+        String url = "https://www.baidu.com/";
+        String note = "访问百度链接";
+        QrCodeUtil2.drawLogoQRCode(logoFile, qrCodeFile, url, note);
     }
 }
