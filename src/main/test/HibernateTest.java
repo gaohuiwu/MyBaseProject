@@ -1,6 +1,6 @@
 
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.hibernate.Query;
 import org.junit.Before;
 import org.junit.Test;
 import com.mbp.pojo.User;
