@@ -25,17 +25,66 @@
     <context:component-scan base-package="com.mbp.web">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    <!-- 允许访问路径 -->
+    <!-- 对静态资源文件的访问 restful -->
     <mvc:resources location="/resources/" mapping="/resources/**/"/>
 
+    <!--velocity配置-->
+    <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/vtl"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="directive.foreach.counter.name">loopCounter</prop>
+                <prop key="directive.foreach.counter.initial.value">0</prop>
+                <prop key="input.encoding">utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+                <prop key="directive.foreach.counter.name">velocityCount</prop>
+                <prop key="directive.foreach.counter.initial.value">1</prop>
+                <prop key="velocimacro.library.autoreload">true</prop>
+                <prop key="macro/macro.vm">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!--spring 视图解析器配置-->
+    <bean id="viewResolver" class="com.mbp.spring.resolver.MyMultipleViewResolver">
+        <property name="defaultKey" value="jsp"/>
+        <property name="resolvers">
+            <map>
+                <entry key="jsp">
+                    <!--jsp视图解析器-->
+                    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                        <property name="prefix" value="/WEB-INF/jsp/"/>
+                        <property name="suffix" value=".jsp"/>
+                    </bean>
+                </entry>
+                <entry key="vm">
+                    <!--velocity视图解析器-->
+                    <bean class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+                        <!--是否使用spring对宏定义的支持-->
+                        <property name="exposeRequestAttributes" value="true"/>
+                        <!--toolbox配置文件路径-->
+                        <property name="toolboxConfigLocation" value="/WEB-INF/vtl/toolbox.xml"/>
+                        <!--指定编码-->
+                        <property name="contentType" value="text/html;charset=UTF-8"/>
+                        <property name="prefix" value=""/>
+                        <property name="suffix" value=".vm"/>
+                        <property name="viewClass"
+                                  value="org.springframework.web.servlet.view.velocity.VelocityToolbox2View"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+
+    </bean>
     <!--视图解析器配置(传统)-->
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <!--<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="viewResolvers">
             <list>
                 <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
                 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
                     <property name="prefix" value="/WEB-INF/jsp/"/>
-                    <!--<property name="suffix" value=".jsp"/>-->
+                    &lt;!&ndash;<property name="suffix" value=".jsp"/>&ndash;&gt;
                 </bean>
             </list>
         </property>
@@ -44,7 +93,7 @@
                 <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <!--文件上传配置-->
     <bean id="multipartResolver" class="com.mbp.spring.resolver.MyMultipartResolver">
@@ -60,7 +109,6 @@
             <value>utf-8</value>
         </property>
     </bean>
-
 
     <!--全局异常捕捉 -->
     <bean class="com.mbp.spring.resolver.MyExceptionResolver"/>
