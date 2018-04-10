@@ -2,6 +2,7 @@ package com.mbp.web;
 
 import com.mbp.pojo.ExampleEntity;
 import com.mbp.service.ExampleService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,13 @@ public class ExampleController {
         List<ExampleEntity> data = userService.getUsers();
         mv.addObject("data", data);
 
+        return mv;
+    }
+
+    @RequestMapping(value = "examplePage")
+    public ModelAndView examplePage() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/example/examplePage.vm");
         return mv;
     }
 
